@@ -15,8 +15,8 @@ public class Segment {
     public Segment(long maxId, long step, double loadFactor) {
         this.maxId = maxId;
         this.minId = maxId - step + 1;
-        this.cursor = new AtomicLong(this.minId);
         this.ref = (long) (loadFactor * step);
+        this.cursor = new AtomicLong(this.minId);
     }
 
     public long nextId() {
