@@ -6,8 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+/**
+ * 号段模型 — 表示一个从 Redis 申请到的连续 ID 区间.
+ * [minId, maxId]
+ *
+ * @author laokou
+ */
 @Data
-public class Segment {
+final class Segment {
 
     private final long minId;
     private final long maxId;
