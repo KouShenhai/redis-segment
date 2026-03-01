@@ -23,7 +23,47 @@ final class SegmentBuffer {
     private final Lock readLock = switchLock.readLock();
     private final Lock writeLock = switchLock.writeLock();
 
-    public int getNextIndex() {
+    public Segment getCurrent() {
+        return segments[currentIndex.get()];
+    }
+
+    public void setCurrent(Segment segment) {
+        segments[currentIndex.get()] = segment;
+    }
+
+    public void setNext(Segment segment) {
+        segments[getNextIndex()] = segment;
+        nextReady.set(true);
+    }
+
+    public boolean switchBuffer() {
+        writeLock.lock();
+        try {
+            if (isNextReady()) {
+                currentIndex.set(getNextIndex());
+                nextReady.set(false);
+                loading.set(false);
+                return true;
+            }
+            return false;
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
+    public boolean isLoading() {
+        return loading.get();
+    }
+
+    public boolean isNextReady() {
+        return nextReady.get();
+    }
+
+    public boolean trySetLoading() {
+        return loading.compareAndSet(false, true);
+    }
+
+    private int getNextIndex() {
         return 1 - currentIndex.get();
     }
 

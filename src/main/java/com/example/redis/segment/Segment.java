@@ -1,6 +1,6 @@
 package com.example.redis.segment;
 
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * @author laokou
  */
-@Data
+@Getter
 final class Segment {
 
     private final long minId;
